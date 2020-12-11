@@ -195,7 +195,7 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
                                       header: header,
                                       textAlign: TextAlign.end,
                                     )
-                                  : Text("${data[header.value]}")
+                                  : Text("${data[header.value] ?? ''}")
                         ],
                       ),
                     ),
@@ -315,7 +315,7 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
                                   )
                                 : Container(
                                     child: Text(
-                                      "${data[header.value]}",
+                                      "${data[header.value] ?? ''}",
                                       textAlign: header.textAlign,
                                     ),
                                   ),

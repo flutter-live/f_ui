@@ -22,3 +22,4 @@ export 'router/router.dart';
 export 'button/button.dart';
 export 'dialog/dialog.dart';
 export 'select_dialog/select_dialog.dart';
+export 'utils/utils.dart';
