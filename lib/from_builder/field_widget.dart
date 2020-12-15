@@ -69,8 +69,9 @@ class _FTextFieldState extends State<FTextField> {
 
     ///禁止密码选择，复制
     controller.addListener(() {
+      var selection = controller.selection;
       if(widget.obscureText){
-        if(controller.selection.affinity == TextAffinity.upstream){
+        if(selection.baseOffset != selection.extentOffset){
           controller.selection=TextSelection.collapsed(offset: controller.text.length);
         }
       }
@@ -102,7 +103,6 @@ class _FTextFieldState extends State<FTextField> {
             textAlignVertical: TextAlignVertical.center,
             controller: controller,
             obscureText: value,
-            enableInteractiveSelection: false,
             cursorColor: cursorColorFinal,
             validator: widget.validator,
             inputFormatters: widget.inputFormatters,
