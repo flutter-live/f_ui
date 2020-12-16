@@ -402,6 +402,9 @@ class ErrorCode {
   ///授权已过期
   static const String AUTHORIZATION_EXPIRED = "A0311";
 
+  ///账号被禁用
+  static const String ACCOUNTS_DISABLED = "A0136";
+
   ///未知错误
   static const String UNKNOWN_ERROR = 'S0500';
 

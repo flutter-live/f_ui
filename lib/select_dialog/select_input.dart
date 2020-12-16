@@ -128,7 +128,6 @@ class _FSelectInputState extends State<FSelectInput> {
           if (widget.onTap != null) widget.onTap();
         },
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 10),
           padding: widget.contentPadding,
           width: widget.width,
           constraints: BoxConstraints(

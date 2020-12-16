@@ -13,6 +13,9 @@ class FCommonButtons extends StatefulWidget {
   final double elevation;
   final TextStyle textStyle;
   final ButtonType buttonType;
+  final Color textColor;
+  final Color disTextColor;
+  final Color disColor;
 
   const FCommonButtons({
     Key key,
@@ -24,6 +27,9 @@ class FCommonButtons extends StatefulWidget {
     this.elevation,
     this.buttonType = ButtonType.Elevated,
     this.textStyle,
+    this.textColor = Colors.white,
+    this.disTextColor,
+    this.disColor,
   })  : assert(child != null),
         super(key: key);
 
@@ -34,11 +40,18 @@ class FCommonButtons extends StatefulWidget {
 class _FCommonButtonsState extends State<FCommonButtons> {
   ThemeData them;
   Color colorData;
+  Color textCustomColor;
 
   @override
   Widget build(BuildContext context) {
     them = Theme.of(context);
-    colorData = widget.color ?? them.primaryColor;
+    colorData = widget.onTap == null
+        ? widget.disColor ?? (widget.color?.withOpacity(0.5) ?? them?.primaryColor?.withOpacity(0.5))
+        : (widget.color ?? them?.primaryColor);
+
+    textCustomColor = widget.onTap == null
+        ? widget.disTextColor ?? widget.textColor?.withOpacity(0.5)
+        : widget.textColor;
 
     switch (widget.buttonType) {
       case ButtonType.Text:
@@ -49,12 +62,16 @@ class _FCommonButtonsState extends State<FCommonButtons> {
                 borderRadius: BorderRadius.circular(widget.radius),
               ),
             ),
+            foregroundColor: MaterialStateProperty.all(textCustomColor),
             elevation: MaterialStateProperty.all(widget.elevation),
             backgroundColor: MaterialStateProperty.all<Color>(colorData),
             padding: MaterialStateProperty.all(widget.padding),
+            textStyle: MaterialStateProperty.all(widget.textStyle),
           ),
           child: widget.child,
-          onPressed: () async => await intercept() ? widget.onTap() : null,
+          onPressed: widget.onTap == null
+              ? null
+              : (() async => await intercept() ? widget.onTap() : null),
         );
       case ButtonType.Outlined:
         return OutlinedButton(
@@ -64,12 +81,15 @@ class _FCommonButtonsState extends State<FCommonButtons> {
                 borderRadius: BorderRadius.circular(widget.radius),
               ),
             ),
-            textStyle: MaterialStateProperty.all<TextStyle>(widget.textStyle),
+            foregroundColor: MaterialStateProperty.all(textCustomColor),
             elevation: MaterialStateProperty.all(widget.elevation),
             padding: MaterialStateProperty.all(widget.padding),
+            textStyle: MaterialStateProperty.all(widget.textStyle),
           ),
           child: widget.child,
-          onPressed: () async => await intercept() ? widget.onTap() : null,
+          onPressed: widget.onTap == null
+              ? null
+              : (() async => await intercept() ? widget.onTap() : null),
         );
       default:
         return ElevatedButton(
@@ -79,12 +99,16 @@ class _FCommonButtonsState extends State<FCommonButtons> {
                 borderRadius: BorderRadius.circular(widget.radius),
               ),
             ),
+            foregroundColor: MaterialStateProperty.all(textCustomColor),
             elevation: MaterialStateProperty.all(widget.elevation),
             backgroundColor: MaterialStateProperty.all<Color>(colorData),
             padding: MaterialStateProperty.all(widget.padding),
+            textStyle: MaterialStateProperty.all(widget.textStyle),
           ),
           child: widget.child,
-          onPressed: () async => await intercept() ? widget.onTap() : null,
+          onPressed: widget.onTap == null
+              ? null
+              : (() async => await intercept() ? widget.onTap() : null),
         );
     }
   }
