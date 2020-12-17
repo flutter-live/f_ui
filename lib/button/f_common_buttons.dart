@@ -1,5 +1,6 @@
 import 'package:f_ui/model/button_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 ///公共按钮
 ///所有按钮都已此基础进行扩展
@@ -16,6 +17,9 @@ class FCommonButtons extends StatefulWidget {
   final Color textColor;
   final Color disTextColor;
   final Color disColor;
+  final Color borderColor;
+  final Color hoverColor;
+  final Color hoverTextColor;
 
   const FCommonButtons({
     Key key,
@@ -30,6 +34,9 @@ class FCommonButtons extends StatefulWidget {
     this.textColor = Colors.white,
     this.disTextColor,
     this.disColor,
+    this.borderColor,
+    this.hoverColor,
+    this.hoverTextColor = Colors.white,
   })  : assert(child != null),
         super(key: key);
 
@@ -46,7 +53,9 @@ class _FCommonButtonsState extends State<FCommonButtons> {
   Widget build(BuildContext context) {
     them = Theme.of(context);
     colorData = widget.onTap == null
-        ? widget.disColor ?? (widget.color?.withOpacity(0.5) ?? them?.primaryColor?.withOpacity(0.5))
+        ? widget.disColor ??
+            (widget.color?.withOpacity(0.5) ??
+                them?.primaryColor?.withOpacity(0.5))
         : (widget.color ?? them?.primaryColor);
 
     textCustomColor = widget.onTap == null
@@ -81,7 +90,28 @@ class _FCommonButtonsState extends State<FCommonButtons> {
                 borderRadius: BorderRadius.circular(widget.radius),
               ),
             ),
-            foregroundColor: MaterialStateProperty.all(textCustomColor),
+            side: MaterialStateProperty.all(BorderSide(
+              color: widget.borderColor,
+              width: 1,
+            )),
+            foregroundColor: MaterialStateProperty.resolveWith((states) {
+              if(states.contains(MaterialState.hovered)){
+                return widget.hoverTextColor;
+              }else if(states.contains(MaterialState.pressed)){
+                return colorData;
+              }else{
+                return colorData;
+              }
+            }),
+            backgroundColor: MaterialStateProperty.resolveWith((states) {
+              if(states.contains(MaterialState.hovered)){
+                return widget.hoverColor;
+              }else if(states.contains(MaterialState.pressed)){
+                return colorData;
+              }else{
+                return Colors.white;
+              }
+            }),
             elevation: MaterialStateProperty.all(widget.elevation),
             padding: MaterialStateProperty.all(widget.padding),
             textStyle: MaterialStateProperty.all(widget.textStyle),

@@ -11,6 +11,9 @@ class FColours {
   ///透明遮罩层
   static final Color dialogTransparent = Color(0x90000000);
 
+  ///404
+  static final Color notFindColor =  HexColor('#6783d8');
+
   ///导航卡片背景颜色
   static final Color navBackColor = HexColor('#344058');
   static const Color light_primaryColor = Color(0xFF345B9A);
