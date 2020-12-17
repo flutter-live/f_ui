@@ -15,7 +15,7 @@ class UnknownPage extends StatelessWidget {
           width: double.infinity,
           height: double.infinity,
           child: Image.asset(
-            'assets/image/404.jpg',
+            'image/404.jpg',
             fit: BoxFit.cover,
           ),
         ),
