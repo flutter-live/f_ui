@@ -10,6 +10,7 @@ class FCustomSelectWidget extends StatefulWidget {
   final FocusNode focusNode;
   final String hintText;
   final bool readOnly;
+  final bool enabled;
   final Function() onTap;
   final AnimationController animationController;
 
@@ -20,6 +21,7 @@ class FCustomSelectWidget extends StatefulWidget {
     this.onTap,
     this.readOnly = false,
     this.focusNode,
+    this.enabled = true,
     this.animationController,
   }) : super(key: key);
 
@@ -38,6 +40,7 @@ class _FCustomSelectWidgetState extends State<FCustomSelectWidget> {
       hintText: widget.hintText,
       unselectedBorderColor: Colors.black26,
       isBoxShadow: false,
+      enabled: widget.enabled,
       readOnly: widget.readOnly,
       suffixIcon: FToggleRotate(
         curve: Curves.decelerate,

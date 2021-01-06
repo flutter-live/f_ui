@@ -19,6 +19,7 @@ class FDialog extends StatelessWidget {
   final VoidCallback confirm;
   final VoidCallback cancel;
   final double footerButtonHeight;
+  final Widget child;
 
   const FDialog({
     Key key,
@@ -35,6 +36,7 @@ class FDialog extends StatelessWidget {
     this.confirm,
     this.cancel,
     this.footerButtonHeight = 60,
+    this.child,
   }) : super(key: key);
 
   @override
@@ -56,7 +58,7 @@ class FDialog extends StatelessWidget {
               children: [
                 Container(
                   padding: EdgeInsets.only(bottom: footerButtonHeight),
-                  child: ListView(
+                  child: child ?? ListView(
                     children: children,
                   ),
                 ),

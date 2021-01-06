@@ -1,4 +1,5 @@
 import 'package:f_ui/model/button_model.dart';
+import 'package:f_ui/provider/f_ui_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -48,10 +49,11 @@ class _FCommonButtonsState extends State<FCommonButtons> {
   ThemeData them;
   Color colorData;
   Color textCustomColor;
+  Color borderCustomColor;
 
   @override
   Widget build(BuildContext context) {
-    them = Theme.of(context);
+    final them = FUiThemeData.of(context);
     colorData = widget.onTap == null
         ? widget.disColor ??
             (widget.color?.withOpacity(0.5) ??
@@ -61,6 +63,8 @@ class _FCommonButtonsState extends State<FCommonButtons> {
     textCustomColor = widget.onTap == null
         ? widget.disTextColor ?? widget.textColor?.withOpacity(0.5)
         : widget.textColor;
+
+    borderCustomColor = widget.borderColor ?? them?.primaryColor;
 
     switch (widget.buttonType) {
       case ButtonType.Text:
@@ -91,7 +95,7 @@ class _FCommonButtonsState extends State<FCommonButtons> {
               ),
             ),
             side: MaterialStateProperty.all(BorderSide(
-              color: widget.borderColor,
+              color: borderCustomColor,
               width: 1,
             )),
             foregroundColor: MaterialStateProperty.resolveWith((states) {

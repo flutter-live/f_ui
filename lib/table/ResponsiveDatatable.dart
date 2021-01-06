@@ -51,6 +51,7 @@ class FResponsiveDatatable extends StatefulWidget {
 
 class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
   ScrollController scrollController = ScrollController();
+
   // @override
   // void initState() {
   //   super.initState();
@@ -124,10 +125,11 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
                       child: Wrap(
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
-                          Text(
-                            "${header.text}",
-                            textAlign: header.textAlign,
-                          ),
+                          header.textWidget ??
+                              Text(
+                                "${header.text}",
+                                textAlign: header.textAlign,
+                              ),
                           if (widget.sortColumn != null &&
                               widget.sortColumn == header.value)
                             widget.sortAscending
@@ -146,7 +148,11 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
   }
 
   List<Widget> mobileList() {
-    return widget.source.map((data) {
+    List<FDatatableHeader> listHeader =
+        widget.headers.where((header) => header.show == true).toList();
+
+    return List.generate(widget.source.length, (index) {
+      Map<String, dynamic> data = widget.source[index];
       return InkWell(
         onTap: widget.onTabRow != null
             ? () {
@@ -171,36 +177,33 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
                     ),
                 ],
               ),
-              ...widget.headers
-                  .where((header) => header.show == true)
-                  .toList()
-                  .map(
-                    (header) => Container(
-                      padding: EdgeInsets.all(11),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          header.headerBuilder != null
-                              ? header.headerBuilder(header.value)
-                              : Text(
-                                  "${header.text}",
-                                  overflow: TextOverflow.clip,
-                                ),
-                          Spacer(),
-                          header.sourceBuilder != null
-                              ? header.sourceBuilder(data[header.value], data)
-                              : header.editable
-                                  ? editAbleWidget(
-                                      data: data,
-                                      header: header,
-                                      textAlign: TextAlign.end,
-                                    )
-                                  : Text("${data[header.value] ?? ''}")
-                        ],
-                      ),
-                    ),
-                  )
-                  .toList()
+              for (int i = 0; i < listHeader.length; i++)
+                Container(
+                  padding: EdgeInsets.all(11),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      listHeader[i].headerBuilder != null
+                          ? listHeader[i].headerBuilder(listHeader[i].value)
+                          : listHeader[i].textWidget ??
+                              Text(
+                                "${listHeader[i].text}",
+                                overflow: TextOverflow.clip,
+                              ),
+                      Spacer(),
+                      listHeader[i].sourceBuilder != null
+                          ? listHeader[i].sourceBuilder(
+                              data[listHeader[i].value], data, index)
+                          : listHeader[i].editable
+                              ? editAbleWidget(
+                                  data: data,
+                                  header: listHeader[i],
+                                  textAlign: TextAlign.end,
+                                )
+                              : Text("${data[listHeader[i].value] ?? ''}")
+                    ],
+                  ),
+                )
             ],
           ),
         ),
@@ -257,10 +260,11 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
                               child: Wrap(
                                 crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
-                                  Text(
-                                    "${header.text}",
-                                    textAlign: header.textAlign,
-                                  ),
+                                  header.textWidget ??
+                                      Text(
+                                        "${header.text}",
+                                        textAlign: header.textAlign,
+                                      ),
                                   if (widget.sortColumn != null &&
                                       widget.sortColumn == header.value)
                                     widget.sortAscending
@@ -279,6 +283,8 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
 
   List<Widget> desktopList() {
     List<Widget> widgets = [];
+    List<FDatatableHeader> listHeader =
+        widget.headers.where((header) => header.show == true).toList();
     for (var index = 0; index < widget.source.length; index++) {
       final data = widget.source[index];
       widgets.add(InkWell(
@@ -300,28 +306,26 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
                     value: widget.selecteds.indexOf(data['id']) >= 0,
                     onChanged: (value) => choiceSelect(value, data),
                   ),
-                ...widget.headers
-                    .where((header) => header.show == true)
-                    .map(
-                      (header) => Expanded(
-                        flex: header.flex ?? 1,
-                        child: header.sourceBuilder != null
-                            ? header.sourceBuilder(data[header.value], data)
-                            : header.editable
-                                ? editAbleWidget(
-                                    data: data,
-                                    header: header,
-                                    textAlign: header.textAlign,
-                                  )
-                                : Container(
-                                    child: Text(
-                                      "${data[header.value] ?? ''}",
-                                      textAlign: header.textAlign,
+                for (int i = 0; i < listHeader.length; i++)
+                  Expanded(
+                    flex: listHeader[i].flex ?? 1,
+                    child: listHeader[i].sourceBuilder != null
+                        ? listHeader[i].sourceBuilder(
+                            data[listHeader[i].value], data, index)
+                        : listHeader[i].editable
+                            ? editAbleWidget(
+                                data: data,
+                                header: listHeader[i],
+                                textAlign: listHeader[i].textAlign,
+                              )
+                            : Container(
+                                child: listHeader[i].textWidget ??
+                                    Text(
+                                      "${data[listHeader[i].value] ?? ''}",
+                                      textAlign: listHeader[i].textAlign,
                                     ),
-                                  ),
-                      ),
-                    )
-                    .toList()
+                              ),
+                  )
               ],
             )),
       ));
@@ -362,8 +366,8 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
     return context.isExtraSmall || context.isSmall || context.isMedium
         ?
         /**
-         * for small screen
-         */
+     * for small screen
+     */
         Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -421,8 +425,8 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
             ),
           )
         /**
-          * for large screen
-          */
+     * for large screen
+     */
         : Container(
             child: Column(
               children: [

@@ -1,3 +1,4 @@
+import 'package:f_ui/utils/reg_exp_utils.dart';
 import 'package:flutter/services.dart';
 
 /// @description: 输入框输入规则
@@ -57,7 +58,6 @@ class NoMaxLengthTextInputFormatter extends TextInputFormatter {
  * @date: 2020-11-09 16:27:50
 */
 class UsNumberTextInputFormatter extends TextInputFormatter {
-
   static const defaultDouble = 0.001;
   static double strToFloat(String str, [double defaultValue = defaultDouble]) {
     try {
@@ -68,13 +68,39 @@ class UsNumberTextInputFormatter extends TextInputFormatter {
   }
 
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     String value = newValue.text;
     int selectionIndex = newValue.selection.end;
     if (value == ".") {
       value = "0.";
       selectionIndex++;
-    } else if (value != "" && value != defaultDouble.toString() && strToFloat(value, defaultDouble) == defaultDouble) {
+    } else if (value != "" &&
+        value != defaultDouble.toString() &&
+        strToFloat(value, defaultDouble) == defaultDouble) {
+      value = oldValue.text;
+      selectionIndex = oldValue.selection.end;
+    }
+    return new TextEditingValue(
+      text: value,
+      selection: new TextSelection.collapsed(offset: selectionIndex),
+    );
+  }
+}
+
+/*
+ * @description 仅允许输入字母
+ * @date: 2020-11-09 14:45:16
+*/
+
+class OnlyLetterTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String value = newValue.text;
+    int selectionIndex = newValue.selection.end;
+
+    if (!FRegExpUtils.isOnlyLetter(newValue.text)) {
       value = oldValue.text;
       selectionIndex = oldValue.selection.end;
     }

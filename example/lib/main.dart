@@ -1,6 +1,10 @@
 import 'dart:async';
+import 'dart:html';
+
 import 'package:f_ui/f_ui.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:image_picker_for_web/image_picker_for_web.dart';
 
 void main() {
   runApp(MyApp());
@@ -42,6 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
   String decode;
   TextEditingController usernameCon;
   FocusNode usernameFocusNode;
+  ImagePickerPlugin plugin;
+  //FileSubmitControllerApi api;
   List _testList = [
     {'no': 1, 'keyword': 'blue'},
     {'no': 2, 'keyword': 'black'},
@@ -72,6 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
     _dropdownTestItems = buildDropdownTestItems(_testList);
     usernameCon = TextEditingController();
     usernameFocusNode = FocusNode();
+    plugin = ImagePickerPlugin();
+    //api = FileSubmitControllerApi();
     super.initState();
   }
 
@@ -109,11 +117,20 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          Loading.show(context);
 
-          new Timer(new Duration(seconds: 5), () async {
-            Loading.hide(context);
-          });
+        // await getFile();
+        //   plugin.pickFile().then((value) async{
+        //     print('------------------------------${value.path}');
+        //
+        //     //print(await MultipartFile.fromPath('file', value.path));
+        //     api.uploadTestUsingPOST(await MultipartFile.fromPath('file', value.path));
+        //  //   print('===============>>>${await value.readAsBytes()}');
+        //   });
+          // Loading.show(context);
+          //
+          // new Timer(new Duration(seconds: 5), () async {
+          //   Loading.hide(context);
+          // });
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
@@ -121,6 +138,17 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<void> getFile() async{
+    final InputElement input = document.createElement('input');
+    input..type = 'file';
+    input.onChange.listen((e) async {
+      final List<File> files = input.files;
+      //print(files[0].);
+      // MultipartFile multipartFile = MultipartFile.fromPath('file', files[0].);
+      // api.uploadTestUsingPOST();
+    });
+    input.click();
+  }
   onChangeDropdownTests(selectedTest) {
     controller.text = selectedTest['keyword'];
     int index =

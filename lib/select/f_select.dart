@@ -209,12 +209,17 @@ class _DropdownMenuState<T> extends State<_DropdownMenu<T>> {
             child: new ScrollConfiguration(
               behavior: const _DropdownScrollBehavior(),
               child: new Scrollbar(
-                child: new ListView(
-                  controller: widget.route.scrollController,
-                  padding: kMaterialListPadding,
-                  itemExtent: _kMenuItemHeight,
-                  shrinkWrap: true,
-                  children: children,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxHeight: 250,
+                  ),
+                  child: new ListView(
+                    controller: widget.route.scrollController,
+                    padding: kMaterialListPadding,
+                    itemExtent: _kMenuItemHeight,
+                    shrinkWrap: true,
+                    children: children,
+                  ),
                 ),
               ),
             ),
@@ -264,7 +269,6 @@ class _DropdownMenuRouteLayout<T> extends SingleChildLayoutDelegate {
       final Rect container = Offset.zero & size;
       if (container.intersect(buttonRect) == buttonRect) {
         assert(menuTop >= 0.0);
-        assert(menuTop + menuHeight <= size.height);
       }
       return true;
     }());
@@ -377,7 +381,7 @@ class _DropdownRoute<T> extends PopupRoute<_DropdownRouteResult<T>> {
     final double bottomPreferredLimit = screenHeight - _kMenuItemHeight;
     if (bottom > bottomPreferredLimit) {
       bottom = math.max(buttonTop + _kMenuItemHeight, bottomPreferredLimit);
-      menuTop = bottom - menuHeight;
+      //menuTop = bottom - menuHeight;
     }
 
     if (scrollController == null) {
@@ -442,7 +446,7 @@ class FSelect<T> extends StatefulWidget {
     this.elevation = 8,
     this.style,
     this.iconSize = 24.0,
-    this.isDisable = false,
+    this.isDisable = true,
     this.builder,
     this.hintText,
     this.controller,
@@ -566,7 +570,7 @@ class _FSelectState<T> extends State<FSelect<T>>
         padding: _kMenuItemPadding.resolve(textDirection),
         selectedIndex: -1,
         elevation: widget.elevation,
-        theme: Theme.of(context, shadowThemeOnly: true),
+        theme: Theme.of(context),
         style: _textStyle,
         barrierLabel:
             MaterialLocalizations.of(context).modalBarrierDismissLabel,
@@ -594,6 +598,7 @@ class _FSelectState<T> extends State<FSelect<T>>
           controller: widget.controller,
           hintText: widget.hintText,
           readOnly: widget.readOnly,
+          enabled: widget.isDisable,
           animationController: _controller,
           focusNode: widget.focusNode,
           onTap: _handleTap,
