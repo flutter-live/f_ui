@@ -552,6 +552,7 @@ class _FSelectState<T> extends State<FSelect<T>>
       widget.style ?? Theme.of(context).textTheme.subhead;
 
   void _handleTap() {
+    //if(widget.isDisable) return;
     isOnTap = true;
     _controller.forward();
     final RenderBox itemBox = context.findRenderObject();
