@@ -1,5 +1,6 @@
 import 'package:f_ui/config/res/resources.dart';
-import 'package:f_ui/toast/src/core/toast.dart';
+import 'package:f_ui/f_ui_app.dart';
+import 'package:f_ui/provider/f_ui_theme.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
 
 import 'alert_icon.dart';
@@ -39,6 +40,7 @@ class FAlert extends StatefulWidget {
   final MainAxisAlignment alignment;
   final Text description;
   final EdgeInsetsGeometry textPadding;
+  final TextStyle textStyle;
 
   const FAlert(
       this.title, {
@@ -52,10 +54,11 @@ class FAlert extends StatefulWidget {
         this.alignment = MainAxisAlignment.start,
         this.description,
         this.context,
-        this.radius,
+        this.radius = 10,
         this.textPadding = const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         this.icon,
         this.textColor,
+        this.textStyle,
         this.width = 600.0,
       }) : super(key: key);
 
@@ -73,10 +76,10 @@ class _FAlertState extends State<FAlert> {
   @override
   void initState() {
     BuildContext context = widget.context ?? contextMap.values.first;
-    final theme = ToastTheme.of(context);
-    radius = widget.radius ?? theme.radius;
-    textPadding = widget.textPadding ?? theme.textPadding;
-    textStyle = theme.textStyle ?? TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500);
+    final theme = FUiThemeData.of(context);
+    radius = widget.radius;
+    textPadding = widget.textPadding;
+    textStyle = widget.textStyle ?? TextStyle(fontSize: 15.0, fontWeight: FontWeight.w500, color: Colors.white);
     maxHeight = widget.description == null ? 50.0 : 60.0;
     super.initState();
   }

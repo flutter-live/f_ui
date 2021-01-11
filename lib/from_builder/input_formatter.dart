@@ -54,11 +54,66 @@ class NoMaxLengthTextInputFormatter extends TextInputFormatter {
 }
 
 /*
+ * @description 不能小于传递值的大小
+ * @date: 2020-11-09 16:27:50
+*/
+class NoMinLengthTextInputFormatter extends TextInputFormatter {
+  final int minLength;
+
+  NoMinLengthTextInputFormatter(this.minLength);
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String value = newValue.text;
+    int selectionIndex = newValue.selection.end;
+
+    if (value.isNotEmpty) {
+      if (int.parse(newValue.text) < minLength) {
+        value = oldValue.text;
+        selectionIndex = oldValue.selection.end;
+      }
+    }
+
+    return new TextEditingValue(
+      text: value,
+      selection: new TextSelection.collapsed(offset: selectionIndex),
+    );
+  }
+}
+
+/*
+ * @description 只允许输入正整数
+ * @date: 2020-11-09 16:27:50
+*/
+class IntegerTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String value = newValue.text;
+    int selectionIndex = newValue.selection.end;
+
+    if (value.isNotEmpty) {
+      if (!FRegExpUtils.isInteger(value)) {
+        value = oldValue.text;
+        selectionIndex = oldValue.selection.end;
+      }
+    }
+
+    return new TextEditingValue(
+      text: value,
+      selection: new TextSelection.collapsed(offset: selectionIndex),
+    );
+  }
+}
+
+/*
  * @description 只能输入合法小数
  * @date: 2020-11-09 16:27:50
 */
 class UsNumberTextInputFormatter extends TextInputFormatter {
   static const defaultDouble = 0.001;
+
   static double strToFloat(String str, [double defaultValue = defaultDouble]) {
     try {
       return double.parse(str);

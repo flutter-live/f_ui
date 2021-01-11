@@ -1,3 +1,4 @@
+import 'package:f_ui/from_builder/input_formatter.dart';
 import 'package:f_ui/hover_border/hover_border.dart';
 import 'package:f_ui/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -161,6 +162,11 @@ class _FPager extends State<FPager> with TickerProviderStateMixin {
                         ),
                         onChanged: _onCntPerPageChanged,
                         onSubmitted: _onCntPerPageSubmit,
+                        inputFormatters: [
+                          IntegerTextInputFormatter(),
+                          NoMinLengthTextInputFormatter(1),
+                          NoMaxLengthTextInputFormatter(2),
+                        ],
                         style: TextStyle(
                           height: 1.1,
                         ),

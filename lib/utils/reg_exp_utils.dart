@@ -24,4 +24,11 @@ class FRegExpUtils {
     var url = new RegExp(r"^[a-zA-Z]+$");
     return url.hasMatch(src);
   }
+
+  ///验证正整数
+  static bool isInteger(String input){
+    //var res = new RegExp(r"^[0-9]*[1-9][0-9]*$");
+    var res = new RegExp(r"^[1-9]{1}\d*$");
+    return res.hasMatch(input);
+  }
 }

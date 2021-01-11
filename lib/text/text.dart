@@ -11,14 +11,11 @@ TextStyle footerTextStyle =
 
 TextStyle footerNumberTextStyle = footerTextStyle.copyWith(
   fontSize: 19,
-  //fontWeight: FontWeight.w600
 );
 
 TextStyle pageMainTitleStyle = TextStyle(
   fontSize: 35,
   fontWeight: FontWeight.w700,
-  //letterSpacing: 2
-  //fontFamily: 'Trajan'
 );
 
 TextStyle menuTextStyle = defaultTextStyle.copyWith(
@@ -31,9 +28,7 @@ TextStyle loginSubmitTextStyle =
 TextStyle pageMainTitleWithShadowStyle = TextStyle(
     color: Colors.white,
     fontSize: 55,
-    //fontFamily: 'Trajan',
     fontWeight: FontWeight.w700,
-    //letterSpacing: 2,
     shadows: [
       /// shadow
       Shadow(
@@ -46,9 +41,7 @@ TextStyle pageMainTitleWithShadowStyle = TextStyle(
 TextStyle pageMainTitleWithBorderAndShadowStyle = TextStyle(
   color: Colors.white,
   fontSize: 45,
-  //fontFamily: 'Trajan',
   fontWeight: FontWeight.w700,
-  //letterSpacing: 2,
   shadows: [
     /// borders
     Shadow(
@@ -231,7 +224,6 @@ class FShadowTitleText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var style = loginSubmitTextStyle.copyWith(
-        //color: color??Colors.white,
         shadows: withShadow
             ? [
                 Shadow(
@@ -264,9 +256,7 @@ class FMenuText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var style = menuTextStyle.copyWith(
-      //color: color??Colors.black
-    );
+    var style = menuTextStyle.copyWith();
     if (color != null)
       style = menuTextStyle.copyWith(color: color ?? Colors.black);
     return Text(text, style: style);

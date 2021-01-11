@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:html';
-
+import 'package:f_ui/cascader/cascader.dart';
 import 'package:f_ui/f_ui.dart';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:flutter/material.dart' hide DropdownMenuItem;
 import 'package:image_picker_for_web/image_picker_for_web.dart';
+import 'package:oktoast/oktoast.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,6 +19,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return FUiApp(
       child: OKToast(
+        dismissOtherOnShow: true,
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
@@ -47,6 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController usernameCon;
   FocusNode usernameFocusNode;
   ImagePickerPlugin plugin;
+
   //FileSubmitControllerApi api;
   List _testList = [
     {'no': 1, 'keyword': 'blue'},
@@ -111,21 +112,80 @@ class _MyHomePageState extends State<MyHomePage> {
               hintText: 'dome',
               unselectedBorderColor: Colors.black26,
               isBoxShadow: false,
+              inputFormatters: [
+                IntegerTextInputFormatter(),
+                NoMinLengthTextInputFormatter(1),
+                NoMaxLengthTextInputFormatter(2),
+              ],
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 20),
+              child: FCascader(
+                itemWidth: 250,
+                itemTextstyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.black),
+                height: 45,
+                width: 250,
+                readOnly: true,
+                hintText: 'SELECTED',
+                focusNode: focusNode,
+                controller: controller,
+                value: [],
+                items: [
+                  DropdownMenuItem(
+                    value: {'id': 1},
+                    child: Text('1'),
+                    children: [
+                      DropdownMenuItem(value: {'id': 2}, child: Text('1-1')),
+                      DropdownMenuItem(
+                        value: {'id': 33},
+                        child: Text('1-2'),
+                        children: [
+                          DropdownMenuItem(
+                              value: {'id': 3}, child: Text('1-1-1'))
+                        ],
+                      ),
+                    ],
+                  ),
+                  DropdownMenuItem(
+                    value: {'id': 4},
+                    child: Text('2'),
+                    children: [
+                      DropdownMenuItem(value: {'id': 5}, child: Text('2-1')),
+                      DropdownMenuItem(value: {'id': 6}, child: Text('2-2')),
+                    ],
+                  ),
+                  DropdownMenuItem(
+                    value: {'id': 7},
+                    child: Text('3'),
+                    children: [
+                      DropdownMenuItem(value: {'id': 8}, child: Text('3-1')),
+                      DropdownMenuItem(value: {'id': 9}, child: Text('3-2')),
+                    ],
+                  )
+                ],
+                onChanged: (item) {
+                  print(item);
+                },
+              ),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          showToast('111');
 
-        // await getFile();
-        //   plugin.pickFile().then((value) async{
-        //     print('------------------------------${value.path}');
-        //
-        //     //print(await MultipartFile.fromPath('file', value.path));
-        //     api.uploadTestUsingPOST(await MultipartFile.fromPath('file', value.path));
-        //  //   print('===============>>>${await value.readAsBytes()}');
-        //   });
+          // await getFile();
+          //   plugin.pickFile().then((value) async{
+          //     print('------------------------------${value.path}');
+          //
+          //     //print(await MultipartFile.fromPath('file', value.path));
+          //     api.uploadTestUsingPOST(await MultipartFile.fromPath('file', value.path));
+          //  //   print('===============>>>${await value.readAsBytes()}');
+          //   });
           // Loading.show(context);
           //
           // new Timer(new Duration(seconds: 5), () async {
@@ -136,26 +196,5 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
-  }
-
-  Future<void> getFile() async{
-    final InputElement input = document.createElement('input');
-    input..type = 'file';
-    input.onChange.listen((e) async {
-      final List<File> files = input.files;
-      //print(files[0].);
-      // MultipartFile multipartFile = MultipartFile.fromPath('file', files[0].);
-      // api.uploadTestUsingPOST();
-    });
-    input.click();
-  }
-  onChangeDropdownTests(selectedTest) {
-    controller.text = selectedTest['keyword'];
-    int index =
-        _testList.indexWhere((e) => selectedTest['keyword'] == e['keyword']);
-    print(index);
-    setState(() {
-      _selectedTest = index;
-    });
   }
 }
