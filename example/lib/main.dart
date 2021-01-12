@@ -1,9 +1,16 @@
-import 'dart:async';
 import 'package:f_ui/cascader/cascader.dart';
 import 'package:f_ui/f_ui.dart';
 import 'package:flutter/material.dart' hide DropdownMenuItem;
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:oktoast/oktoast.dart';
+
+import 'basic/basic_border.dart';
+import 'basic/basic_button.dart';
+import 'basic/basic_color.dart';
+import 'from/fui_cascader.dart';
+import 'from/fui_input.dart';
+import 'from/fui_select.dart';
+import 'main_layout.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,9 +32,72 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: MyHomePage(title: 'Flutter Demo Home Page'),
+          home: Main(),
         ),
       ),
+    );
+  }
+}
+
+class Main extends StatefulWidget {
+  @override
+  _MainState createState() => _MainState();
+}
+
+class _MainState extends State<Main> {
+  List<CreateRouter> list = [
+    CreateRouter(
+      active: '1',
+      name: 'basic',
+      icon: Icons.category_outlined,
+      children: [
+        CreateRouter(
+          active: '1-1',
+          name: 'Color 色彩',
+          components: BasicColor(),
+        ),
+        CreateRouter(
+          active: '1-2',
+          name: 'Border 边线',
+          components: BasicBorder(),
+        ),
+        CreateRouter(
+          active: '1-3',
+          name: 'Button 按钮',
+          components: BasicButton(),
+        ),
+      ],
+    ),
+    CreateRouter(
+      active: '2',
+      name: 'Form',
+      icon: Icons.format_align_justify_rounded,
+      children: [
+        CreateRouter(
+          active: '2-1',
+          name: 'Input 输入框',
+          components: FuiInput(),
+        ),
+        CreateRouter(
+          active: '2-2',
+          name: 'Select 选择器',
+          components: FuiSelect(),
+        ),
+        CreateRouter(
+          active: '2-3',
+          name: 'Cascader 级联选择器',
+          components: FuiCascader(),
+        ),
+      ],
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MainLayout(
+      selectedIndex: '1-1',
+      title: 'F_UI',
+      createRouter: list,
     );
   }
 }
