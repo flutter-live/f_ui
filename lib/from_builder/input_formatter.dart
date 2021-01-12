@@ -83,6 +83,35 @@ class NoMinLengthTextInputFormatter extends TextInputFormatter {
 }
 
 /*
+ * @description 不能大于传递值的大小
+ * @date: 2020-11-09 16:27:50
+*/
+class NoMaxTextInputFormatter extends TextInputFormatter {
+  final num maxValue;
+
+  NoMaxTextInputFormatter(this.maxValue);
+
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String value = newValue.text;
+    int selectionIndex = newValue.selection.end;
+
+    if (value.isNotEmpty) {
+      if (num.parse(newValue.text) > maxValue) {
+        value = oldValue.text;
+        selectionIndex = oldValue.selection.end;
+      }
+    }
+
+    return new TextEditingValue(
+      text: value,
+      selection: new TextSelection.collapsed(offset: selectionIndex),
+    );
+  }
+}
+
+/*
  * @description 只允许输入正整数
  * @date: 2020-11-09 16:27:50
 */
