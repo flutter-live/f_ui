@@ -58,7 +58,7 @@ class NoMaxLengthTextInputFormatter extends TextInputFormatter {
  * @date: 2020-11-09 16:27:50
 */
 class NoMinLengthTextInputFormatter extends TextInputFormatter {
-  final int minLength;
+  final num minLength;
 
   NoMinLengthTextInputFormatter(this.minLength);
 
@@ -69,7 +69,7 @@ class NoMinLengthTextInputFormatter extends TextInputFormatter {
     int selectionIndex = newValue.selection.end;
 
     if (value.isNotEmpty) {
-      if (int.parse(newValue.text) < minLength) {
+      if (num.parse(newValue.text) < minLength) {
         value = oldValue.text;
         selectionIndex = oldValue.selection.end;
       }
