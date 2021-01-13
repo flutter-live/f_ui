@@ -1,3 +1,4 @@
+import 'package:example/table/fui_table.dart';
 import 'package:f_ui/cascader/cascader.dart';
 import 'package:f_ui/f_ui.dart';
 import 'package:flutter/material.dart' hide DropdownMenuItem;
@@ -11,6 +12,12 @@ import 'from/fui_cascader.dart';
 import 'from/fui_input.dart';
 import 'from/fui_select.dart';
 import 'main_layout.dart';
+import 'navigation/breadcrumb.dart';
+import 'navigation/dropdown.dart';
+import 'navigation/nav_menu.dart';
+import 'notice/alert.dart';
+import 'notice/loading.dart';
+import 'other/dialog.dart';
 
 void main() {
   runApp(MyApp());
@@ -87,6 +94,69 @@ class _MainState extends State<Main> {
           active: '2-3',
           name: 'Cascader 级联选择器',
           components: FuiCascader(),
+        ),
+      ],
+    ),
+    CreateRouter(
+      active: '3',
+      name: 'Table',
+      icon: Icons.table_chart,
+      children: [
+        CreateRouter(
+          active: '3-1',
+          name: 'Table 表格',
+          components: FuiTable(),
+        ),
+      ],
+    ),
+    CreateRouter(
+      active: '4',
+      name: 'Notice',
+      icon: Icons.notification_important,
+      children: [
+        CreateRouter(
+          active: '4-1',
+          name: 'Alert 警告',
+          components: FuiAlert(),
+        ),
+        CreateRouter(
+          active: '4-2',
+          name: 'Loading 加载',
+          components: FuiLoading(),
+        ),
+      ],
+    ),
+    CreateRouter(
+      active: '5',
+      name: 'Navigation',
+      icon: Icons.navigation,
+      children: [
+        CreateRouter(
+          active: '5-1',
+          name: 'NavMenu 导航菜单',
+          components: FuiNavMenu(),
+        ),
+        CreateRouter(
+          active: '5-2',
+          name: 'Breadcrumb 面包屑',
+          components: FuiBreadcrumb(),
+        ),
+        CreateRouter(
+          active: '5-3',
+          name: 'Dropdown 下拉菜单',
+          components: FuiDropdown(),
+        ),
+      ],
+    ),
+    CreateRouter(
+      active: '6',
+      name: 'Others',
+      icon: Icons.devices_other,
+      children: [
+        CreateRouter(
+          active: '6-1',
+          name: 'Dialog 对话框',
+          components: FuiDialog(),
         ),
       ],
     ),
@@ -170,7 +240,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             FAlert(
               Text('还可以哦'),
-              isShowIcon: true,
               type: FAlertType.error,
             ),
             FBorderSideFieldWidget(

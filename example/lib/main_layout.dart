@@ -241,7 +241,7 @@ class _MainLayoutState extends State<MainLayout> {
                           selectedIcon: firstPages[index].icon == null
                               ? SizedBox.shrink()
                               : Icon(firstPages[index].icon),
-                          label: Text(firstPages[index].name),
+                          label: Text(firstPages[index].name, overflow: TextOverflow.ellipsis,),
                         ),
                       ),
                     ),

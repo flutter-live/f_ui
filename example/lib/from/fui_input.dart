@@ -60,7 +60,7 @@ class _FuiInputState extends State<FuiInput> {
                   onTap: () {},
                 ),
               ),
-              SizedBox(width: 20),
+              SizedBox(height: 20),
               Text('禁用框', style: FuiSizeOrColor.secSize),
               SizedBox(height: 10),
               Align(
@@ -72,7 +72,7 @@ class _FuiInputState extends State<FuiInput> {
                   enabled: false,
                 ),
               ),
-              SizedBox(width: 20),
+              SizedBox(height: 20),
               Text('密码框', style: FuiSizeOrColor.secSize),
               SizedBox(height: 10),
               Align(
@@ -86,7 +86,7 @@ class _FuiInputState extends State<FuiInput> {
                   obscureText: true,
                 ),
               ),
-              SizedBox(width: 20),
+              SizedBox(height: 20),
               Text('自定义图标框', style: FuiSizeOrColor.secSize),
               SizedBox(height: 10),
               Align(
@@ -101,7 +101,7 @@ class _FuiInputState extends State<FuiInput> {
                   prefixIcon: Icon(Icons.cancel),
                 ),
               ),
-              SizedBox(width: 20),
+              SizedBox(height: 20),
               Text('限制框(只允许输入字母)', style: FuiSizeOrColor.secSize),
               SizedBox(height: 10),
               Align(
