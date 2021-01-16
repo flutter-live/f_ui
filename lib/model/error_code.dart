@@ -408,5 +408,8 @@ class ErrorCode {
   ///未知错误
   static const String UNKNOWN_ERROR = 'S0500';
 
+  ///表单不能重复
+  static const String NOT_DUPLICATE = 'A0334';
+
 
 }

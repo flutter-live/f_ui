@@ -87,43 +87,21 @@ class _FCommonButtonsState extends State<FCommonButtons> {
               : (() async => await intercept() ? widget.onTap() : null),
         );
       case ButtonType.Outlined:
-        return OutlinedButton(
-          style: ButtonStyle(
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(widget.radius),
-              ),
-            ),
-            side: MaterialStateProperty.all(BorderSide(
-              color: borderCustomColor,
-              width: 1,
-            )),
-            foregroundColor: MaterialStateProperty.resolveWith((states) {
-              if(states.contains(MaterialState.hovered)){
-                return widget.hoverTextColor;
-              }else if(states.contains(MaterialState.pressed)){
-                return colorData;
-              }else{
-                return colorData;
-              }
-            }),
-            backgroundColor: MaterialStateProperty.resolveWith((states) {
-              if(states.contains(MaterialState.hovered)){
-                return widget.hoverColor;
-              }else if(states.contains(MaterialState.pressed)){
-                return colorData;
-              }else{
-                return Colors.white;
-              }
-            }),
-            elevation: MaterialStateProperty.all(widget.elevation),
-            padding: MaterialStateProperty.all(widget.padding),
-            textStyle: MaterialStateProperty.all(widget.textStyle),
-          ),
-          child: widget.child,
+        return OutlineButton(
+          highlightElevation: widget.elevation,
+          padding: widget.padding,
           onPressed: widget.onTap == null
               ? null
               : (() async => await intercept() ? widget.onTap() : null),
+          child: widget.child,
+          textColor: colorData,
+          borderSide: BorderSide(
+            color: colorData,
+            width: 1,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(widget.radius),
+          ),
         );
       default:
         return ElevatedButton(

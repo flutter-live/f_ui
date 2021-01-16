@@ -198,6 +198,7 @@ class _FPager extends State<FPager> with TickerProviderStateMixin {
         child: FHoverBorder(
           width: squareUnitWidth,
           onTap: () {
+            if(widget.totalCnt == null || widget.totalCnt == 0) return;
             if (currentIndex != 1) {
               currentIndex = max(1, currentIndex - 1);
               updateUI();
@@ -214,6 +215,7 @@ class _FPager extends State<FPager> with TickerProviderStateMixin {
         child: FHoverBorder(
           width: squareUnitWidth,
           onTap: () {
+            if(widget.totalCnt == null || widget.totalCnt == 0) return;
             if (currentIndex != totalPageCnt) {
               currentIndex = min(totalPageCnt, currentIndex + 1);
               updateUI();

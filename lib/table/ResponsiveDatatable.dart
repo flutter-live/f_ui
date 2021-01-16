@@ -458,16 +458,20 @@ class _FResponsiveDatatableState extends State<FResponsiveDatatable> {
                   if (widget.source != null && widget.source.isNotEmpty)
                     Expanded(
                         child: Container(
-                            child: DraggableScrollbar.semicircle(
-                                key: Key(dList.length.toString()),
-                                scrollbarAnimationDuration:
-                                    Duration(milliseconds: 100),
-                                alwaysVisibleScrollThumb: true,
-                                controller: scrollController,
-                                child: ListView(
-                                  controller: scrollController,
-                                  children: dList,
-                                )))),
+                      child: ListView(
+                        children: dList,
+                      ),
+                      // child: DraggableScrollbar.semicircle(
+                      //     key: Key(dList.length.toString()),
+                      //     scrollbarAnimationDuration:
+                      //         Duration(milliseconds: 100),
+                      //     alwaysVisibleScrollThumb: true,
+                      //     controller: scrollController,
+                      //     child: ListView(
+                      //       controller: scrollController,
+                      //       children: dList,
+                      //     )),
+                    )),
                 //footer
                 if (widget.footers != null)
                   Row(
